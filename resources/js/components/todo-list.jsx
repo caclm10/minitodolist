@@ -34,12 +34,12 @@ export function TodoListItem({ todo }) {
 
     return (
         <>
-            <li className="flex items-center justify-between px-4 py-2 hover:bg-accent/60">
+            <li className="flex items-center justify-between gap-x-5 px-4 py-2 hover:bg-accent/60">
                 <span>{todo.title}</span>
 
                 <div className="flex items-center gap-x-4">
                     <Button variant="outline" asChild>
-                        <Link href={`/todos/${todo.id}/tasks`}>
+                        <Link href={`/todos/${todo.id}/tasks`} className="max-md:hidden">
                             <span className="mr-1 font-semibold">{todo.tasks_count || 0}</span>
                             <span>Tasks</span>
                         </Link>
@@ -53,6 +53,12 @@ export function TodoListItem({ todo }) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
+                            <DropdownMenuItem asChild>
+                                <Link href={`/todos/${todo.id}/tasks`} className="md:hidden">
+                                    <span className="mr-1 font-semibold">{todo.tasks_count || 0}</span>
+                                    <span>Tasks</span>
+                                </Link>
+                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => editDialog.show()}>Edit</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => deleteConfirmation.show()}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>

@@ -38,13 +38,14 @@ export function TaskListItem({ task }) {
 
     return (
         <>
-            <li className="flex items-center justify-between px-4 py-2 group hover:bg-accent/60" data-completed={task.is_completed}>
+            <li className="flex items-center justify-between gap-x-5 px-4 py-2 group hover:bg-accent/60" data-completed={task.is_completed}>
                 <span className="group-data-[completed=true]:line-through">{task.content}</span>
 
                 <div className="flex items-center gap-x-4">
                     <Button
                         type="button"
                         variant="outline"
+                        className="max-md:hidden"
                         disabled={completeForm.processing}
                         onClick={() => completeForm.patch(`/todos/${todoId}/tasks/${task.id}/complete`)}
                     >
@@ -52,13 +53,19 @@ export function TaskListItem({ task }) {
                     </Button>
 
                     <DropdownMenu>
-                        <DropdownMenuTrigger disabled={deleteForm.processing} asChild>
+                        <DropdownMenuTrigger disabled={deleteForm.processing || completeForm.processing} asChild>
                             <Button type="button" variant="outline" size="icon">
                                 <MoreVerticalIcon className="size-4" />
                                 <span className="sr-only">Actions</span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
+                            <DropdownMenuItem
+                                className="md:hidden"
+                                onClick={() => completeForm.patch(`/todos/${todoId}/tasks/${task.id}/complete`)}
+                            >
+                                {task.is_completed ? "Uncomplete" : "Complete"}
+                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => editDialog.show()}>Edit</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => deleteConfirmation.show()}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
