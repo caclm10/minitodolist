@@ -27,6 +27,8 @@ class TodoController extends Controller
 
     public function update(Request $request, Todo $todo): RedirectResponse
     {
+        \Gate::authorize('update', $todo);
+
         $request->validate(['title' => ['required', 'string', 'max:255']]);
 
         $todo->update($request->only('title'));
@@ -36,6 +38,8 @@ class TodoController extends Controller
 
     public function destroy(Todo $todo): RedirectResponse
     {
+        \Gate::authorize('delete', $todo);
+
         $todo->delete();
 
         return back();
